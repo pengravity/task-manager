@@ -2,15 +2,15 @@ import { AiFillEdit } from 'react-icons/ai';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { MdDone } from 'react-icons/md';
 
-const Task = () => {
+const Task = ({ name, date, id, complete }) => {
   return (
-    <div className='task'>
+    <div key={id} className={complete ? 'task complete' : 'task'}>
       <span>
         <p>
-          <b>Task: </b> Task one
+          <b>Task: </b> {name}
         </p>
         <p>
-          <b>Date: </b> 21/4/2022
+          <b>Date: </b> {date}
         </p>
       </span>
       <span>

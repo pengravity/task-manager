@@ -16,7 +16,20 @@ const TaskManager = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, date);
+    if (!name || !date) {
+      alert('Please enter task name and date');
+    } else {
+      const newTask = {
+        id: Date.now(),
+        name,
+        date,
+        complete: false,
+      };
+      setTasks([...tasks, newTask]);
+      setName('');
+      setDate('');
+    }
+    console.log(tasks);
   };
 
   return (
@@ -53,9 +66,18 @@ const TaskManager = () => {
       {/* Display task */}
       <article className='--flex-center --my2'>
         <div className='--width-500px --p'>
-          <h2 className='--text-light'>Task List</h2>
+          <h2 className='--text-light --text-center'>Task List</h2>
           <hr style={{ background: '#fff' }} />
-          <Task />
+          {tasks.length === 0 ? (
+            <p className='--text-light'>No tasks added</p>
+          ) : (
+            <div>
+              {tasks.map((task) => {
+                const { name, date, id, complete } = task;
+                return <Task key={id} {...task} />;
+              })}
+            </div>
+          )}
         </div>
       </article>
     </div>
