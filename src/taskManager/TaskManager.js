@@ -8,6 +8,9 @@ const TaskManager = () => {
   const [date, setDate] = useState('');
   const [tasks, setTasks] = useState([]);
 
+  const [taskID, setTaskID] = useState(null);
+  const [iEditing, setIsEditing] = useState(false);
+
   const nameInputRef = useRef(null);
 
   useEffect(() => {
@@ -18,6 +21,24 @@ const TaskManager = () => {
     e.preventDefault();
     if (!name || !date) {
       alert('Please enter task name and date');
+    } else if (name && date && iEditing) {
+      setTasks(
+        tasks.map((task) => {
+          if (task.id === taskID) {
+            return {
+              ...task,
+              name,
+              date,
+              complete: false,
+            };
+          }
+          return task;
+        })
+      );
+      setName('');
+      setDate('');
+      setIsEditing(false);
+      setTaskID(null);
     } else {
       const newTask = {
         id: Date.now(),
@@ -29,7 +50,14 @@ const TaskManager = () => {
       setName('');
       setDate('');
     }
-    console.log(tasks);
+  };
+
+  const handleEditTask = (id) => {
+    const thisTask = tasks.find((task) => task.id === id);
+    setIsEditing(true);
+    setTaskID(id);
+    setName(thisTask.name);
+    setDate(thisTask.date);
   };
 
   return (
@@ -59,7 +87,9 @@ const TaskManager = () => {
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
-            <button className='--btn --btn-success --btn-block'>Save</button>
+            <button className='--btn --btn-success --btn-block'>
+              {iEditing ? 'Edit Task' : 'Save Task'}
+            </button>
           </form>{' '}
         </div>
       </div>
@@ -74,7 +104,7 @@ const TaskManager = () => {
             <div>
               {tasks.map((task) => {
                 const { name, date, id, complete } = task;
-                return <Task key={id} {...task} />;
+                return <Task key={id} {...task} editTask={handleEditTask} />;
               })}
             </div>
           )}
