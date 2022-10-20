@@ -2,7 +2,15 @@ import { AiFillEdit } from 'react-icons/ai';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { MdDone } from 'react-icons/md';
 
-const Task = ({ name, date, id, complete, editTask }) => {
+const Task = ({
+  name,
+  date,
+  id,
+  complete,
+  editTask,
+  deleteTask,
+  completeTask,
+}) => {
   return (
     <div key={id} className={complete ? 'task complete' : 'task'}>
       <span>
@@ -18,10 +26,14 @@ const Task = ({ name, date, id, complete, editTask }) => {
           <AiFillEdit onClick={() => editTask(id)} color='blue' size={20} />
         </button>
         <button>
-          <RiDeleteBin5Fill color='red' size={20} />
+          <RiDeleteBin5Fill
+            onClick={() => deleteTask(id)}
+            color='red'
+            size={20}
+          />
         </button>
         <button>
-          <MdDone color='green' size={20} />
+          <MdDone onClick={() => completeTask(id)} color='green' size={20} />
         </button>
       </span>
     </div>

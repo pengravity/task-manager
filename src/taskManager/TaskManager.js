@@ -54,10 +54,29 @@ const TaskManager = () => {
 
   const handleEditTask = (id) => {
     const thisTask = tasks.find((task) => task.id === id);
+
     setIsEditing(true);
     setTaskID(id);
     setName(thisTask.name);
     setDate(thisTask.date);
+  };
+
+  const handleDeleteTask = (id) => {
+    if (window.confirm('Are you sure you want to delete ?') === true) {
+      const newTasks = tasks.filter((task) => task.id !== id);
+      setTasks(newTasks);
+    }
+  };
+
+  const handleCompleteTask = (id) => {
+    setTasks(
+      tasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, complete: true };
+        }
+        return task;
+      })
+    );
   };
 
   return (
@@ -104,7 +123,15 @@ const TaskManager = () => {
             <div>
               {tasks.map((task) => {
                 const { name, date, id, complete } = task;
-                return <Task key={id} {...task} editTask={handleEditTask} />;
+                return (
+                  <Task
+                    key={id}
+                    {...task}
+                    editTask={handleEditTask}
+                    deleteTask={handleDeleteTask}
+                    completeTask={handleCompleteTask}
+                  />
+                );
               })}
             </div>
           )}
