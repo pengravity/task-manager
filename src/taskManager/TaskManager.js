@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import useLocalStorage from 'use-local-storage';
 
 import Task from './Task';
 import './TaskManager.css';
@@ -6,7 +7,8 @@ import './TaskManager.css';
 const TaskManager = () => {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
-  const [tasks, setTasks] = useState([]);
+  //const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useLocalStorage('tasks', []);
 
   const [taskID, setTaskID] = useState(null);
   const [iEditing, setIsEditing] = useState(false);
@@ -83,7 +85,7 @@ const TaskManager = () => {
     <div className='--bg-primary '>
       <h1 className='--text-center --text-light'>Task Manager</h1>
       <div className='--flex-center --p'>
-        <div className='--card -bg-light --width-500px --p --flex-center'>
+        <div className='--card --bg-light --width-500px --p --flex-center'>
           <form onSubmit={handleSubmit} className='form --form-control'>
             <div>
               <label htmlFor='name'>Task:</label>
